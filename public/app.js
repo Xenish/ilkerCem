@@ -3,6 +3,7 @@ const story = document.querySelector('#bdu-story');
 const storySticky = story?.querySelector('.bdu-tour-sticky');
 const storyChapters = [...document.querySelectorAll('.bdu-tour-copy-block')];
 const stageCount = document.querySelector('#bdu-stage-count');
+const storyContinue = document.querySelector('.bdu-tour-continue');
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 
@@ -152,8 +153,23 @@ function updateBduStory() {
     storySticky.dataset.stage = String(stage);
     storyChapters.forEach((chapter, index) => chapter.classList.toggle('active', index === stage));
     if (stageCount) stageCount.textContent = String(stage + 1).padStart(2, '0');
+    if (storyContinue) {
+      const isLastStage = stage === storyChapters.length - 1;
+      storyContinue.querySelector('span').textContent = isLastStage ? 'Devamını keşfet' : 'Kaydırmaya devam et';
+      storyContinue.setAttribute('aria-label', isLastStage ? 'Hikâyeden sonraki bölüme geç' : 'Bir sonraki hikâye sahnesine geç');
+    }
   }
 }
+
+storyContinue?.addEventListener('click', () => {
+  if (!story) return;
+  const storyTop = scrollY + story.getBoundingClientRect().top;
+  const travel = Math.max(0, story.offsetHeight - innerHeight);
+  const isLastStage = activeStoryStage >= storyChapters.length - 1;
+  const nextProgress = (Math.max(0, activeStoryStage) + 1.08) / storyChapters.length;
+  const targetTop = isLastStage ? storyTop + story.offsetHeight : storyTop + travel * nextProgress;
+  scrollTo({ top: targetTop, behavior: reduceMotion.matches ? 'auto' : 'smooth' });
+});
 
 function updatePageProgress() {
   const distance = document.documentElement.scrollHeight - innerHeight;
