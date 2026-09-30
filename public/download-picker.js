@@ -55,7 +55,7 @@
         <span class="download-platform-glyph" aria-hidden="true">${platform.glyph}</span>
         <span class="download-platform-copy"><strong>${platform.label}</strong><small>${esc(platform.note)}</small></span>
         <span class="download-platform-state"><i></i>${esc(source)}</span>${detected === platform.key ? '<span class="download-platform-device">BU CİHAZ</span>' : ''}
-        <span class="download-platform-arrow" aria-hidden="true">${ready ? '↘' : '—'}</span>
+        <span class="download-platform-arrow${ready ? ' ui-icon ui-icon-arrow-se' : ''}" aria-hidden="true">${ready ? '' : '—'}</span>
       </button>`;
     }).join('');
   }

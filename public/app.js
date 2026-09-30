@@ -24,11 +24,11 @@ const FEATURED_BDU = {
 
 function featuredBduActions() {
   const actions = [];
-  if (FEATURED_BDU.instagramUrl) actions.push(`<a class="project-view" href="${FEATURED_BDU.instagramUrl}" target="_blank" rel="noreferrer">Instagram <span>↗</span></a>`);
+  if (FEATURED_BDU.instagramUrl) actions.push(`<a class="project-view" href="${FEATURED_BDU.instagramUrl}" target="_blank" rel="noreferrer">Instagram <span class="ui-icon ui-icon-arrow-ne" aria-hidden="true"></span></a>`);
   else actions.push('<span class="project-soon">Instagram bağlantısı eklenecek</span>');
 
-  if (FEATURED_BDU.status === 'download') actions.push('<button class="project-download download-picker-trigger" type="button">Uygulamayı indir <span>↓</span></button>');
-  else if (FEATURED_BDU.status === 'demo' && FEATURED_BDU.demoUrl) actions.push(`<a class="project-download" href="${FEATURED_BDU.demoUrl}">Demo iste <span>↗</span></a>`);
+  if (FEATURED_BDU.status === 'download') actions.push('<button class="project-download download-picker-trigger" type="button">Uygulamayı indir <span class="ui-icon ui-icon-arrow-down" aria-hidden="true"></span></button>');
+  else if (FEATURED_BDU.status === 'demo' && FEATURED_BDU.demoUrl) actions.push(`<a class="project-download" href="${FEATURED_BDU.demoUrl}">Demo iste <span class="ui-icon ui-icon-arrow-ne" aria-hidden="true"></span></a>`);
   else if (FEATURED_BDU.status === 'demo') actions.push('<span class="project-soon">Demo iste</span>');
   else actions.push('<span class="project-soon">Yakında</span>');
 
@@ -68,7 +68,7 @@ function renderSelectorApps(apps) {
       <span class="app-choice-index">${String(index + 2).padStart(2, '0')}</span>
       <span class="app-choice-device${deviceClass(item.platform)}" aria-hidden="true"><i></i></span>
       <span class="app-choice-copy"><strong>${escapeHtml(item.name)}</strong><small>${escapeHtml(item.platform)}${item.version ? ' · v' + escapeHtml(item.version) : ''}</small></span>
-      <span class="app-choice-arrow">↗</span>
+      <span class="app-choice-arrow ui-icon ui-icon-arrow-ne" aria-hidden="true"></span>
     </a>`).join('');
 }
 

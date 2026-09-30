@@ -8,12 +8,12 @@
   <link rel="stylesheet" href="/style.css"><script src="/admin.js" defer></script>
 </head>
 <body class="admin-body">
-  <header class="site-header"><a class="brand" href="/"><span class="brand-symbol">✳</span><span data-site-title>İlker Cem Uluçay</span></a><nav><a href="/">← Siteye dön</a><button id="logout" class="plain-button hidden" type="button">Çıkış yap</button></nav></header>
+  <header class="site-header"><a class="brand" href="/"><span class="brand-symbol"><i class="ui-icon ui-icon-spark" aria-hidden="true"></i></span><span data-site-title>İlker Cem Uluçay</span></a><nav><a href="/"><span class="ui-icon ui-icon-arrow-left" aria-hidden="true"></span> Siteye dön</a><button id="logout" class="plain-button hidden" type="button">Çıkış yap</button></nav></header>
   <main class="admin-main">
-    <section id="login-view" class="admin-login"><span class="overline">YÖNETİM / GİRİŞ</span><h1 class="admin-title">Tekrar hoş geldin<span class="orange">.</span></h1><p>Uygulamalarını ve yayın durumlarını buradan yönet.</p><div class="admin-panel"><form id="login-form"><label for="password">Yönetici şifresi</label><input id="password" name="password" type="password" autocomplete="current-password" required><button class="solid-button" type="submit">Giriş yap ↗</button><div class="form-message" id="login-message" role="status"></div></form></div></section>
+    <section id="login-view" class="admin-login"><span class="overline">YÖNETİM / GİRİŞ</span><h1 class="admin-title">Tekrar hoş geldin<span class="orange">.</span></h1><p>Uygulamalarını ve yayın durumlarını buradan yönet.</p><div class="admin-panel"><form id="login-form"><label for="password">Yönetici şifresi</label><input id="password" name="password" type="password" autocomplete="current-password" required><button class="solid-button" type="submit">Giriş yap <span class="ui-icon ui-icon-arrow-ne" aria-hidden="true"></span></button><div class="form-message" id="login-message" role="status"></div></form></div></section>
 
     <section id="dashboard-view" class="hidden">
-      <div class="admin-heading"><div><span class="overline">YÖNETİM / PROJELER</span><h1 class="admin-title">Uygulamalar<span class="orange">.</span></h1><p class="admin-subtitle">Durumu değiştir, bağlantıları güncelle, ekran görüntüsü veya indirme dosyasını sonradan ekle.</p></div><a href="/">Canlı siteyi gör ↗</a></div>
+      <div class="admin-heading"><div><span class="overline">YÖNETİM / PROJELER</span><h1 class="admin-title">Uygulamalar<span class="orange">.</span></h1><p class="admin-subtitle">Durumu değiştir, bağlantıları güncelle, ekran görüntüsü veya indirme dosyasını sonradan ekle.</p></div><a href="/">Canlı siteyi gör <span class="ui-icon ui-icon-arrow-ne" aria-hidden="true"></span></a></div>
       <div class="admin-grid">
         <div class="admin-panel">
           <div class="admin-form-head"><div><h2 id="form-title">Yeni uygulama yayınla</h2><p id="form-mode-note">Uygulamanın mevcut durumuna göre yalnızca gerekli alanlar zorunlu olur.</p></div><button id="cancel-edit" class="admin-cancel hidden" type="button">Düzenlemeyi iptal</button></div>
@@ -90,7 +90,7 @@
             <textarea id="captions" name="captions" rows="4" placeholder="Her görsel için bir satır:&#10;Ana ekran…&#10;Stok görünümü…"></textarea>
             <small>Düzenleme sırasında yeni görsel seçmezsen mevcut görseller korunur.</small>
 
-            <div class="admin-form-actions"><button id="submit-app" class="solid-button" type="submit">Uygulamayı yayınla ↗</button></div>
+            <div class="admin-form-actions"><button id="submit-app" class="solid-button" type="submit">Uygulamayı yayınla <span class="ui-icon ui-icon-arrow-ne" aria-hidden="true"></span></button></div>
             <div class="form-message" id="upload-message" role="status"></div>
           </form>
         </div>

@@ -148,7 +148,7 @@ function resetEditor() {
   statusSelect.value = 'development';
   formTitle.textContent = 'Yeni uygulama yayınla';
   formModeNote.textContent = 'Uygulamanın mevcut durumuna göre yalnızca gerekli alanlar zorunlu olur.';
-  submitButton.textContent = 'Uygulamayı yayınla ↗';
+  submitButton.innerHTML = 'Uygulamayı yayınla <span class="ui-icon ui-icon-arrow-ne" aria-hidden="true"></span>';
   cancelEdit.classList.add('hidden');
   uploadMessage.textContent = '';
   updateStatusUi();
@@ -176,7 +176,7 @@ function startEdit(item) {
 
   formTitle.textContent = `${item.name} düzenle`;
   formModeNote.textContent = 'Yeni görsel veya platform dosyası seçmezsen mevcut kaynaklar korunur.';
-  submitButton.textContent = 'Değişiklikleri kaydet ↗';
+  submitButton.innerHTML = 'Değişiklikleri kaydet <span class="ui-icon ui-icon-arrow-ne" aria-hidden="true"></span>';
   cancelEdit.classList.remove('hidden');
   uploadMessage.textContent = '';
   updateStatusUi();

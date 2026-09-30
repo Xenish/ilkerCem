@@ -5,7 +5,8 @@ services:
     env_file: .env
     environment:
       PORT: "3000"
-      SECURE_COOKIE: "true"
+      # Temporary IP/HTTP deployment. Change back to "true" when HTTPS is enabled.
+      SECURE_COOKIE: "false"
     volumes:
       - app_data:/app/data
     networks:
