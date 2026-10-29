@@ -97,6 +97,20 @@
 
         <div class="admin-panel"><h2>Yayınlananlar</h2><div id="admin-list" aria-live="polite">Yükleniyor…</div></div>
       </div>
+
+      <div class="admin-panel admin-script-panel">
+        <div class="admin-form-head">
+          <div><span class="overline">PAYLAŞILAN ARAÇLAR</span><h2>Getir scriptini düzenle</h2><p>Burada kaydettiğin JavaScript, <code>/scriptsGetir</code> sayfasında ve indirilen Markdown dosyasında anında güncellenir.</p></div>
+          <a class="admin-script-preview" href="/scriptsGetir" target="_blank" rel="noreferrer">Sayfayı aç <span class="ui-icon ui-icon-arrow-ne" aria-hidden="true"></span></a>
+        </div>
+        <form id="getir-script-form">
+          <label for="getir-script-source">JavaScript</label>
+          <textarea id="getir-script-source" class="admin-script-editor" rows="24" maxlength="30000" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="Script yükleniyor…" required></textarea>
+          <div class="admin-script-meta"><small id="getir-script-updated">Son güncelleme bilgisi yükleniyor…</small><small><span id="getir-script-count">0</span> / 30.000 karakter</small></div>
+          <div class="admin-form-actions"><button id="save-getir-script" class="solid-button" type="submit">Scripti kaydet <span class="ui-icon ui-icon-arrow-ne" aria-hidden="true"></span></button></div>
+          <div class="form-message" id="getir-script-message" role="status" aria-live="polite"></div>
+        </form>
+      </div>
     </section>
   </main>
 </body>

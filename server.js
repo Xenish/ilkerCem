@@ -38,13 +38,22 @@ const envState = loadLocalEnv();
 const dataDir = path.join(root, 'data');
 const fileDir = path.join(dataDir, 'files');
 const dbPath = path.join(dataDir, 'apps.json');
+const getirScriptPath = path.join(dataDir, 'scriptsGetir.md');
+const getirScriptSeedPath = path.join(root, 'public', 'scriptsGetir.md');
 fs.mkdirSync(fileDir, { recursive: true });
 if (!fs.existsSync(dbPath)) fs.writeFileSync(dbPath, '[]\n');
+if (!fs.existsSync(getirScriptPath) && fs.existsSync(getirScriptSeedPath)) {
+  fs.copyFileSync(getirScriptSeedPath, getirScriptPath);
+}
 
 const app = express();
 app.disable('x-powered-by');
 app.set('trust proxy', 'loopback');
 app.use(express.json({ limit: '32kb' }));
+app.get('/scriptsGetir.md', (_req, res) => {
+  if (!fs.existsSync(getirScriptPath)) return res.sendStatus(404);
+  res.type('text/markdown; charset=utf-8').send(fs.readFileSync(getirScriptPath, 'utf8'));
+});
 app.use(express.static(path.join(root, 'public'), { index: false, extensions: ['html'] }));
 
 const title = process.env.SITE_TITLE || 'İlker Cem Uluçay';
@@ -76,6 +85,24 @@ function writeApps(apps) {
       fallbackError.cause = error;
       throw fallbackError;
     }
+  }
+}
+function extractGetirScript(markdown) {
+  return String(markdown || '').match(/```(?:javascript|js)\s*\n([\s\S]*?)\n```/i)?.[1]?.trim() || '';
+}
+function readGetirScript() {
+  if (!fs.existsSync(getirScriptPath)) return '';
+  return extractGetirScript(fs.readFileSync(getirScriptPath, 'utf8'));
+}
+function writeGetirScript(source) {
+  const markdown = `# Getir Stok Dışa Aktarma Scripti\n\n> Yalnızca erişim yetkiniz bulunan hesap ve verilerde kullanın.\n\n\`\`\`javascript\n${source.trim()}\n\`\`\`\n`;
+  const temporary = `${getirScriptPath}.${process.pid}.tmp`;
+  try {
+    fs.writeFileSync(temporary, markdown, 'utf8');
+    fs.renameSync(temporary, getirScriptPath);
+  } catch (error) {
+    try { fs.rmSync(temporary, { force: true }); } catch {}
+    fs.writeFileSync(getirScriptPath, markdown, 'utf8');
   }
 }
 function safeRemove(filePath) {
@@ -188,6 +215,24 @@ app.get('/app/:id', (_req, res) => res.sendFile(path.join(root, 'public/detail.h
 app.get('/api/config', (_req, res) => res.json({ title, maxUploadMb: maxMb, maxImageMb: 12 }));
 app.get('/api/apps', (_req, res) => res.json(readApps().map(publicApp)));
 app.get('/api/session', (req, res) => res.json({ authenticated: sessionValid(req) }));
+app.get('/api/admin/scripts/getir', adminOnly, (_req, res) => {
+  const script = readGetirScript();
+  if (!script) return res.status(500).json({ error: 'Getir scripti okunamadı.' });
+  const updatedAt = fs.statSync(getirScriptPath).mtime.toISOString();
+  res.json({ script, updatedAt });
+});
+app.put('/api/admin/scripts/getir', adminOnly, (req, res) => {
+  const script = String(req.body?.script || '').trim();
+  if (!script) return res.status(400).json({ error: 'Script boş bırakılamaz.' });
+  if (script.length > 30_000) return res.status(400).json({ error: 'Script 30.000 karakter sınırını aşıyor.' });
+  try {
+    writeGetirScript(script);
+    res.json({ ok: true, script, updatedAt: fs.statSync(getirScriptPath).mtime.toISOString() });
+  } catch (error) {
+    console.error('Getir scripti kaydedilemedi:', error);
+    res.status(500).json({ error: 'Script kaydedilemedi.' });
+  }
+});
 
 app.post('/api/login', (req, res) => {
   if (!sameOrigin(req)) return res.status(403).json({ error: 'İstek kaynağı geçersiz.' });

@@ -15,6 +15,12 @@ const submitButton = document.querySelector('#submit-app');
 const cancelEdit = document.querySelector('#cancel-edit');
 const formTitle = document.querySelector('#form-title');
 const formModeNote = document.querySelector('#form-mode-note');
+const getirScriptForm = document.querySelector('#getir-script-form');
+const getirScriptSource = document.querySelector('#getir-script-source');
+const getirScriptMessage = document.querySelector('#getir-script-message');
+const getirScriptUpdated = document.querySelector('#getir-script-updated');
+const getirScriptCount = document.querySelector('#getir-script-count');
+const saveGetirScript = document.querySelector('#save-getir-script');
 const platformKeys = ['windows', 'macos', 'android', 'ios'];
 
 let appsCache = [];
@@ -79,7 +85,37 @@ function showDashboard(yes) {
   loginView.classList.toggle('hidden', yes);
   dashboard.classList.toggle('hidden', !yes);
   logout.classList.toggle('hidden', !yes);
-  if (yes) loadApps();
+  if (yes) {
+    loadApps();
+    loadGetirScript();
+  }
+}
+
+function formatScriptUpdated(value) {
+  if (!value) return 'Henüz güncelleme bilgisi yok.';
+  return `Son güncelleme: ${new Intl.DateTimeFormat('tr-TR', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value))}`;
+}
+
+function updateGetirScriptCount() {
+  getirScriptCount.textContent = new Intl.NumberFormat('tr-TR').format(getirScriptSource.value.length);
+}
+
+async function loadGetirScript() {
+  getirScriptSource.disabled = true;
+  saveGetirScript.disabled = true;
+  getirScriptMessage.textContent = 'Script yükleniyor…';
+  try {
+    const data = await jsonRequest('/api/admin/scripts/getir');
+    getirScriptSource.value = data.script || '';
+    getirScriptUpdated.textContent = formatScriptUpdated(data.updatedAt);
+    getirScriptMessage.textContent = '';
+  } catch (error) {
+    getirScriptMessage.textContent = error.message;
+  } finally {
+    getirScriptSource.disabled = false;
+    saveGetirScript.disabled = false;
+    updateGetirScriptCount();
+  }
 }
 
 function platformOption(item, key) {
@@ -301,7 +337,36 @@ adminList.addEventListener('click', async event => {
 
 logout.addEventListener('click', async () => {
   try { await jsonRequest('/api/logout', { method: 'POST' }); }
-  finally { resetEditor(); showDashboard(false); }
+  finally {
+    resetEditor();
+    getirScriptSource.value = '';
+    getirScriptMessage.textContent = '';
+    showDashboard(false);
+  }
+});
+
+getirScriptSource.addEventListener('input', updateGetirScriptCount);
+getirScriptForm.addEventListener('submit', async event => {
+  event.preventDefault();
+  const script = getirScriptSource.value.trim();
+  if (!script) return void (getirScriptMessage.textContent = 'Script boş bırakılamaz.');
+  saveGetirScript.disabled = true;
+  getirScriptMessage.textContent = 'Script kaydediliyor…';
+  try {
+    const data = await jsonRequest('/api/admin/scripts/getir', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ script })
+    });
+    getirScriptSource.value = data.script;
+    getirScriptUpdated.textContent = formatScriptUpdated(data.updatedAt);
+    getirScriptMessage.textContent = 'Script kaydedildi ve paylaşım sayfası güncellendi.';
+    updateGetirScriptCount();
+  } catch (error) {
+    getirScriptMessage.textContent = error.message;
+  } finally {
+    saveGetirScript.disabled = false;
+  }
 });
 
 updateStatusUi();

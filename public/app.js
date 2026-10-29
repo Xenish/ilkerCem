@@ -4,6 +4,7 @@ const storySticky = story?.querySelector('.bdu-tour-sticky');
 const storyChapters = [...document.querySelectorAll('.bdu-tour-copy-block')];
 const stageCount = document.querySelector('#bdu-stage-count');
 const storyContinue = document.querySelector('.bdu-tour-continue');
+const headerDownload = document.querySelector('#header-download');
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 
@@ -44,6 +45,10 @@ function mountFeaturedBduActions() {
   container?.querySelector('.download-picker-trigger')?.addEventListener('click', () => {
     window.DownloadPicker?.open({ name: FEATURED_BDU.title, downloads: FEATURED_BDU.downloads });
   });
+}
+
+function openFeaturedBduDownload() {
+  window.DownloadPicker?.open({ name: FEATURED_BDU.title, downloads: FEATURED_BDU.downloads });
 }
 
 function applyBduAdminData(item) {
@@ -108,6 +113,13 @@ async function loadProjects() {
     if (selectorDynamic) selectorDynamic.innerHTML = '';
   }
 }
+
+let projectsLoadPromise;
+headerDownload?.addEventListener('click', () => {
+  // Seçiciyi mevcut veriyle hemen aç; API yanıtı sonradan gelirse hazır indirmelerle yenile.
+  openFeaturedBduDownload();
+  projectsLoadPromise?.then(openFeaturedBduDownload);
+});
 
 const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
 const lerp = (a, b, t) => a + (b - a) * clamp(t);
@@ -196,5 +208,5 @@ reduceMotion.addEventListener?.('change', onScroll);
 observeReveal();
 bindStoryJumps();
 mountFeaturedBduActions();
-loadProjects();
+projectsLoadPromise = loadProjects();
 onScroll();

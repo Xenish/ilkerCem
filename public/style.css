@@ -18,6 +18,7 @@
 .personal-header nav{gap:32px}
 .personal-admin-link{background:#191919;color:#fff;padding:11px 17px;border-radius:100px;white-space:nowrap}
 .personal-admin-link span{margin-left:14px;color:#d6fb6b}
+.personal-download-link{display:inline-flex;align-items:center;gap:10px;border:1px solid #302027;background:#302027;color:#fff6f2;padding:10px 16px;border-radius:999px;font-weight:700;white-space:nowrap;transition:background .2s,transform .2s}.personal-download-link:hover,.personal-download-link:focus-visible{background:#713143;transform:translateY(-2px)}.personal-download-link:focus-visible{outline:2px solid #713143;outline-offset:3px}.personal-download-link span{font-size:15px}
 .personal-hero{min-height:760px;height:100svh;max-height:1040px;position:relative;overflow:hidden;padding-top:88px;background:#f4f1eb}
 .personal-hero-grid{position:absolute;inset:88px 0 0;background-image:linear-gradient(#1d1d1d0d 1px,transparent 1px),linear-gradient(90deg,#1d1d1d0d 1px,transparent 1px);background-size:86px 86px;mask-image:linear-gradient(90deg,#000,#0007)}
 .personal-hero-inner{height:100%;width:min(1450px,calc(100% - 110px));margin:auto;display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);align-items:center;gap:20px;position:relative;z-index:1}
@@ -400,7 +401,8 @@ button.project-view{border:0}
 
 /* Admin publishing states */
 .admin-form-head{display:flex;align-items:start;justify-content:space-between;gap:18px;margin-bottom:18px}.admin-form-head h2{margin-bottom:6px}.admin-form-head p{margin:0;color:#6d6065;font-size:13px;line-height:1.5}.admin-cancel{border:1px solid #b78491;background:#fff;color:#713143;border-radius:7px;padding:8px 11px;font-weight:700;white-space:nowrap}.admin-status-help{margin:2px 0 4px;padding:13px 14px;border:1px solid #d3c9c5;border-radius:10px;background:#fbf8f6;display:flex;flex-direction:column;gap:3px}.admin-status-help strong{font-size:13px}.admin-status-help span{font-size:12px;color:#6d6065}.admin-form-actions{display:flex;gap:10px;align-items:center}.admin-list-actions{display:flex;gap:8px;flex:none}.admin-list-item .admin-edit-button{border-color:#aeb6cf;background:#f2f4fb;color:#3b4770}.detail-cta-group{display:flex;gap:10px;flex-wrap:wrap}.detail-soon{cursor:default;opacity:.72}.detail-soon:hover{background:#151515}.admin-panel input:required,.admin-panel select:required,.admin-panel textarea:required{scroll-margin-top:100px}
-@media(max-width:680px){.admin-form-head{display:block}.admin-cancel{margin-top:12px}.admin-list-item{align-items:flex-start}.admin-list-actions{flex-direction:column}.detail-cta-group{align-items:flex-start}}
+.admin-script-panel{margin-top:25px}.admin-script-panel .admin-form-head{align-items:center}.admin-script-panel .admin-form-head h2{margin-top:8px}.admin-script-panel code{font:12px Consolas,'Courier New',monospace;color:#713143}.admin-script-preview{flex:none;border:1px solid #b78491;border-radius:999px;padding:9px 14px;color:#713143;font-size:12px;font-weight:700}.admin-script-editor{min-height:520px;resize:vertical;tab-size:2;white-space:pre;overflow:auto;font:13px/1.65 Consolas,'Courier New',monospace!important}.admin-script-meta{display:flex;justify-content:space-between;gap:18px;margin-top:3px}.admin-script-meta small:last-child{white-space:nowrap}.admin-script-panel button:disabled{cursor:wait;opacity:.55}
+@media(max-width:680px){.admin-form-head{display:block}.admin-cancel{margin-top:12px}.admin-list-item{align-items:flex-start}.admin-list-actions{flex-direction:column}.detail-cta-group{align-items:flex-start}.admin-script-preview{display:inline-block;margin-top:14px}.admin-script-editor{min-height:430px;font-size:11px!important}.admin-script-meta{align-items:flex-start;flex-direction:column;gap:3px}}
 
 /* --- Platform download picker --- */
 html.download-picker-open,html.download-picker-open body{overflow:hidden}
@@ -451,6 +453,7 @@ button.download-action{border:1px solid transparent}
 
 /* Public navigation no longer exposes the admin route. */
 @media(max-width:700px){.personal-header nav>a{display:inline-flex!important}}
+.personal-download-link{flex:none}@media(max-width:700px){.personal-header nav{gap:9px}.personal-download-link{padding:8px 11px;font-size:11px}}@media(max-width:560px){.personal-header{padding-inline:12px}.personal-header .brand>span:last-child{display:none}.personal-header nav{gap:7px;font-size:10px}.personal-header nav>a{display:inline-flex!important}.personal-download-link{display:inline-flex;padding:7px 9px;font-size:10px}}
 .download-platform-card.is-detected{border-color:#9cc7ea70;box-shadow:inset 0 0 0 1px #9cc7ea12}.download-platform-device{position:absolute;right:16px;top:15px;border:1px solid #9cc7ea55;background:#9cc7ea12;color:#b9d7ee;border-radius:999px;padding:5px 8px;font:700 7px 'Space Grotesk',sans-serif;letter-spacing:.12em}
 
 
